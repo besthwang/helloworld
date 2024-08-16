@@ -1,0 +1,32 @@
+name: CMake Build
+
+on:
+  push:
+    branches:
+      - main  # main 브랜치에 push가 발생했을 때 워크플로우 실행
+  pull_request:
+    branches:
+      - main  # main 브랜치로의 PR이 열렸을 때 워크플로우 실행
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Install CMake
+      run: sudo apt-get install -y cmake
+
+    - name: Create Build Directory
+      run: mkdir build
+
+    - name: Run CMake
+      run: cmake -S . -B build
+
+    - name: Build Project
+      run: cmake --build build
+
+    - name: Run Executable
+      run: ./build/helloworld
